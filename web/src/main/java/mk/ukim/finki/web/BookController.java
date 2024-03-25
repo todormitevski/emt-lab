@@ -2,7 +2,11 @@ package mk.ukim.finki.web;
 
 import mk.ukim.finki.model.Book;
 import mk.ukim.finki.model.dto.BookDto;
+import mk.ukim.finki.model.events.BookCreatedEvent;
+import mk.ukim.finki.model.events.BookDeletedEvent;
+import mk.ukim.finki.model.events.BookEditedEvent;
 import mk.ukim.finki.service.BookService;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,9 +17,11 @@ import java.util.List;
 public class BookController {
 
     private final BookService bookService;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
-    public BookController(BookService bookService) {
+    public BookController(BookService bookService, ApplicationEventPublisher applicationEventPublisher) {
         this.bookService = bookService;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @GetMapping
@@ -38,6 +44,7 @@ public class BookController {
 
         if(book == null)
             return ResponseEntity.badRequest().build();
+        this.applicationEventPublisher.publishEvent(new BookCreatedEvent(book));
         return ResponseEntity.ok(book);
     }
 
@@ -49,6 +56,7 @@ public class BookController {
 
         if(book == null)
             return ResponseEntity.badRequest().build();
+        this.applicationEventPublisher.publishEvent(new BookEditedEvent(book));
         return ResponseEntity.ok(book);
     }
 
@@ -60,6 +68,7 @@ public class BookController {
             return ResponseEntity.notFound().build();
         else {
             bookService.delete(id);
+            this.applicationEventPublisher.publishEvent(new BookDeletedEvent(book));
             return ResponseEntity.ok(book);
         }
     }
