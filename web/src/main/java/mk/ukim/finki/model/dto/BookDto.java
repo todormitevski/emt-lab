@@ -10,7 +10,7 @@ public class BookDto {
 
     private BookCategory category;
 
-    private Long Author;
+    private Long author;
 
     private Integer availableCopies;
 }

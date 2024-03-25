@@ -50,7 +50,7 @@ public class CountryServiceImpl implements CountryService {
     private Country saveCountry(CountryDto countryDto, Country country){
 
         country.setName(countryDto.getName());
-        country.setContinent(country.getContinent());
+        country.setContinent(countryDto.getContinent());
 
         return countryRepository.save(country);
     }

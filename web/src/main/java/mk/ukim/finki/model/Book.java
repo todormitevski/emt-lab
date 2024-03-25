@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import mk.ukim.finki.model.enums.BookCategory;
+import org.hibernate.annotations.OnDelete;
 
 @Data
 @Entity
