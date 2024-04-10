@@ -2,9 +2,7 @@ package mk.ukim.finki.web;
 
 import mk.ukim.finki.model.Book;
 import mk.ukim.finki.model.dto.BookDto;
-import mk.ukim.finki.model.events.BookCreatedEvent;
-import mk.ukim.finki.model.events.BookDeletedEvent;
-import mk.ukim.finki.model.events.BookEditedEvent;
+import mk.ukim.finki.model.events.*;
 import mk.ukim.finki.service.BookService;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
@@ -80,7 +78,12 @@ public class BookController {
         if(book == null)
             return ResponseEntity.notFound().build();
         else {
-            bookService.taken(id);
+            if(book.getAvailableCopies() > 0){
+                bookService.taken(id);
+                this.applicationEventPublisher.publishEvent(new BookTakenEvent(book));
+            } else{
+                this.applicationEventPublisher.publishEvent(new BookNotTakenEvent(book));
+            }
             return ResponseEntity.ok(book);
         }
     }

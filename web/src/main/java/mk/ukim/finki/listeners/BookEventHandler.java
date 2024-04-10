@@ -1,8 +1,6 @@
 package mk.ukim.finki.listeners;
 
-import mk.ukim.finki.model.events.BookCreatedEvent;
-import mk.ukim.finki.model.events.BookDeletedEvent;
-import mk.ukim.finki.model.events.BookEditedEvent;
+import mk.ukim.finki.model.events.*;
 import mk.ukim.finki.service.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +28,18 @@ public class BookEventHandler {
         logger.info("Book deleted: " + event.getSource());
     }
 
+    @EventListener
     public void onBookEdited(BookEditedEvent event){
         logger.info("Book edited: " + event.getSource());
+    }
+
+    @EventListener
+    public void onBookTaken(BookTakenEvent event){
+        logger.info("Book taken: " + event.getSource());
+    }
+
+    @EventListener
+    public void onBookNotTaken(BookNotTakenEvent event){
+        logger.info("Book not taken: " + event.getSource() + ", no more available copies");
     }
 }
