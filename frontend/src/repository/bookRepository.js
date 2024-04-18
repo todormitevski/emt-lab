@@ -28,6 +28,9 @@ const bookService = {
     },
     takeBook: (id) => {
         return axios.put(`/books/take/${id}`)
+    },
+    searchBook: () => {
+        return axios.get(`/books/search`)
     }
 }
 

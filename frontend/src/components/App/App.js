@@ -10,6 +10,7 @@ import BookEdit from "../Books/BookEdit/BookEdit"
 import bookService from "../../repository/bookRepository";
 import authorService from "../../repository/authorRepository";
 import categoryService from "../../repository/categoryRepository";
+import BookSearch from "../Books/BookSearch/BookSearch";
 
 class App extends Component {
 
@@ -58,6 +59,9 @@ class App extends Component {
                                                       authors={this.state.authors}
                                                       onEditBook={this.editBook}
                                                       book={this.state.selectedBook}/>}/>
+
+                            <Route path={"/books/search"}
+                                   element={<BookSearch />}/>
                         </Routes>
                     </div>
                 </main>
